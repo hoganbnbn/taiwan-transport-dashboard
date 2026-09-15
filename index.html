@@ -1,22 +1,499 @@
-現在時間
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
 
-桃園機場捷運
-A13 機場第二航廈
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-往台北
-16:04 普通車
-16:10 直達車
+    <title>Taiwan Transport Dashboard</title>
 
-往中壢
-16:15 普通車
-16:41 直達車
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-高鐵桃園站
+        body {
+            margin: 0;
+            background: #050d19;
+            color: white;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "Noto Sans TC",
+                sans-serif;
+        }
 
-北上
-16:11
-16:20
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+            padding: 18px;
+        }
 
-南下
-16:10
-16:20
+        /* 頂部時間 */
+
+        .clock {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            margin-top: 10px;
+            margin-bottom: 6px;
+        }
+
+        .date {
+            text-align: center;
+            color: #8fa2b8;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* 卡片 */
+
+        .card {
+            background: linear-gradient(
+                145deg,
+                #09182b,
+                #06101e
+            );
+
+            border: 1px solid #1f3a57;
+
+            border-radius: 22px;
+
+            margin-bottom: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.35);
+        }
+
+        .card-header {
+            padding: 20px;
+
+            border-bottom:
+                1px solid #20364c;
+        }
+
+        .operator {
+            color: #8fa2b8;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .title {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .station {
+            margin-top: 12px;
+
+            background: #11263c;
+
+            border: 1px solid #31506e;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        /* 方向 */
+
+        .direction {
+            padding: 16px 20px 8px;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+        .direction span {
+            color: #8499ae;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+
+        /* 班次 */
+
+        .train {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 13px 20px;
+
+            border-top:
+                1px solid #172b3f;
+        }
+
+        .train-time {
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .normal {
+            color: #56b5ff;
+        }
+
+        .express {
+            color: #d9a6ff;
+        }
+
+        .train-type {
+            color: #9aabba;
+            font-size: 13px;
+        }
+
+        .countdown {
+            color: #70e1a1;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        /* 更新時間 */
+
+        .update {
+            padding: 14px 20px;
+
+            color: #77e0a1;
+
+            font-size: 13px;
+
+            border-top:
+                1px solid #172b3f;
+        }
+
+        /* 手機 */
+
+        @media (max-width: 500px) {
+
+            .container {
+                padding: 12px;
+            }
+
+            .clock {
+                font-size: 36px;
+            }
+
+            .title {
+                font-size: 21px;
+            }
+
+            .train-time {
+                font-size: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- 現在時間 -->
+
+    <div class="clock" id="clock">
+        00:00
+    </div>
+
+    <div class="date" id="date">
+        載入中...
+    </div>
+
+
+    <!-- ==================== -->
+    <!-- 機場捷運 -->
+    <!-- ==================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="operator">
+                AIRPORT MRT
+            </div>
+
+            <div class="title">
+                桃園機場捷運
+            </div>
+
+            <div class="station">
+                A13 機場第二航廈站
+            </div>
+
+        </div>
+
+
+        <!-- 往台北 -->
+
+        <div class="direction">
+            To Taipei
+            <span>往台北</span>
+        </div>
+
+        <div class="train">
+
+            <div>
+                <div class="train-time normal">
+                    16:04
+                </div>
+
+                <div class="train-type">
+                    普通車
+                </div>
+            </div>
+
+            <div class="countdown">
+                下一班
+            </div>
+
+        </div>
+
+
+        <div class="train">
+
+            <div>
+                <div class="train-time express">
+                    16:10
+                </div>
+
+                <div class="train-type">
+                    直達車
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- 往中壢 -->
+
+        <div class="direction">
+            To Zhongli
+            <span>往中壢</span>
+        </div>
+
+        <div class="train">
+
+            <div>
+                <div class="train-time normal">
+                    16:15
+                </div>
+
+                <div class="train-type">
+                    普通車
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="train">
+
+            <div>
+                <div class="train-time express">
+                    16:41
+                </div>
+
+                <div class="train-type">
+                    直達車
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="update">
+            ● 示範資料 · 尚未連接即時 API
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================== -->
+    <!-- 高鐵 -->
+    <!-- ==================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="operator">
+                TAIWAN HSR
+            </div>
+
+            <div class="title">
+                台灣高鐵
+            </div>
+
+            <div class="station">
+                高鐵桃園站 · Taoyuan HSR Station
+            </div>
+
+        </div>
+
+
+        <!-- 北上 -->
+
+        <div class="direction">
+            Northbound
+            <span>北上・往南港</span>
+        </div>
+
+
+        <div class="train">
+
+            <div>
+
+                <div class="train-time">
+                    16:11
+                </div>
+
+                <div class="train-type">
+                    車次 0652 · 往南港
+                </div>
+
+            </div>
+
+            <div class="train-type">
+                3 stops
+            </div>
+
+        </div>
+
+
+        <div class="train">
+
+            <div>
+
+                <div class="train-time">
+                    16:20
+                </div>
+
+                <div class="train-type">
+                    車次 0834 · 往南港
+                </div>
+
+            </div>
+
+            <div class="train-type">
+                3 stops
+            </div>
+
+        </div>
+
+
+        <!-- 南下 -->
+
+        <div class="direction">
+            Southbound
+            <span>南下・往左營</span>
+        </div>
+
+
+        <div class="train">
+
+            <div>
+
+                <div class="train-time">
+                    16:10
+                </div>
+
+                <div class="train-type">
+                    車次 0657 · 往左營
+                </div>
+
+            </div>
+
+            <div class="train-type">
+                5 stops
+            </div>
+
+        </div>
+
+
+        <div class="train">
+
+            <div>
+
+                <div class="train-time">
+                    16:20
+                </div>
+
+                <div class="train-type">
+                    車次 1321 · 往左營
+                </div>
+
+            </div>
+
+            <div class="train-type">
+                6 stops
+            </div>
+
+        </div>
+
+
+        <div class="update">
+            ● 示範資料 · 尚未連接即時 API
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function updateClock() {
+
+        const now = new Date();
+
+        const hours =
+            String(now.getHours()).padStart(2, "0");
+
+        const minutes =
+            String(now.getMinutes()).padStart(2, "0");
+
+        const seconds =
+            String(now.getSeconds()).padStart(2, "0");
+
+
+        document.getElementById("clock")
+            .textContent =
+            `${hours}:${minutes}:${seconds}`;
+
+
+        const date =
+            now.toLocaleDateString(
+                "zh-TW",
+                {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    weekday: "long"
+                }
+            );
+
+
+        document.getElementById("date")
+            .textContent = date;
+    }
+
+
+    updateClock();
+
+    setInterval(updateClock, 1000);
+
+</script>
+
+</body>
+</html>
